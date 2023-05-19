@@ -65,7 +65,7 @@ export default function Index() {
             {
               stepForm === 1
                 ? <fieldset>
-                  <h2 className="fs-title">Realize sua Pré-venda</h2>
+                  <h2 className="fs-title">Realize sua Pré-compra</h2>
                   <h3 className="fs-subtitle">* Dados obrigatórios</h3>
                   <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Rede *' value={watch('rede')} {...register('rede', { required: true })} options={redes} />
                   <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Células *' value={watch('celula')} {...register('celula', { required: true })} options={celulas} />
@@ -88,7 +88,7 @@ export default function Index() {
             {
               stepForm === 3
                 ? <fieldset>
-                  <h2 className="fs-title">Pré-venda Confirmada</h2>
+                  <h2 className="fs-title">Pré-compra Confirmada</h2>
                   <h3 className="fs-subtitle">Fique atento ao dia do Pagamento e Retirada das pulseiras!</h3>
                   <img src="/assets/success.gif" />
                 </fieldset>
