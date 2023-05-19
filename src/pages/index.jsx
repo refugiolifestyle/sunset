@@ -11,3 +11,9 @@ export default function Index() {
       <img src="/assets/infos.png" className='infos' />
     </section>;
 }
+
+export const getStaticProps = () => {
+  return {
+    props: {}
+  }
+}
