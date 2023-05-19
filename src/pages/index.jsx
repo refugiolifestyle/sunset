@@ -4,7 +4,9 @@ export default function Index() {
   const { permitirVenda } = useConfigService();
 
   return <section className='flyer'>
-    <img src="/assets/refugio.png" className='refugio' />
+    <div className="refugio">
+      <img src="/assets/refugio.png" />
+    </div>
     <div className="infos">
       <img src="/assets/infos.png" />
     </div>
