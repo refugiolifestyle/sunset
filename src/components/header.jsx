@@ -14,8 +14,8 @@ export const HeaderNavigation = ({ current }) => {
   return <div className="max-w-7xl mx-auto px-6 xl:px-0">
     <div className="flex items-center justify-between h-24">
       <img
-        className="h-16"
-        src="/assets/refugio.png"
+        className="h-12"
+        src="/assets/sunset.png"
         alt="Workflow"
       />
       <div className="flex items-baseline space-x-4">
@@ -34,11 +34,6 @@ export const HeaderNavigation = ({ current }) => {
           </a>
         )}
       </div>
-      <img
-        className="h-12"
-        src="/assets/sunset.png"
-        alt="Workflow"
-      />
     </div>
   </div>;
 }
