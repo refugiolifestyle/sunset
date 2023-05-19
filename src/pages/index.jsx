@@ -7,6 +7,12 @@ import { firebaseDatabase } from "../configs/firebase";
 import { useConfigService } from '../services/useConfigService';
 import { useRedesService } from '../services/useRedesService';
 
+export const metadata = {
+  title: 'Sunset :: Refúgio Lifestyle',
+  description: 'Evento em comemoração aos 13 anos da Refúgio',
+  keywords: ['Refúgio', 'Sunset', 'Evento']
+};
+
 export default function Index() {
   const [stepForm, setStepForm] = useState(1);
   const { redes, celulas } = useRedesService()
