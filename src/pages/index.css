@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-image: linear-gradient(#322765, #d33484, #ffaf5c);
+  position: relative;
+}
+
+.home {
+  height: 100vh;
+  width: 100vw;
+}
+
+.home .graphic {
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('/assets/bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.home > *:not(.graphic) {
+  position: relative;
+  z-index: 5;
+}
+
+.home .flyer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home .flyer .refugio {
+  padding-top: 3rem;
+  padding-bottom: 1.5rem;
+  max-width: 120px;
+  width: 100%;
+}
+
+.home .flyer .title {
+  background-image: url('/assets/sunset-bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-bottom: 8rem;
+}
+
+.home .flyer .title img {
+  max-width: 650px;
+  width: 100%;
+}
+
+.home .flyer .infos {
+  max-width: 300px;
+  width: 100%;
+}

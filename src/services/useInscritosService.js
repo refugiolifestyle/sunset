@@ -4,17 +4,17 @@ import { firebaseDatabase } from "../configs/firebase";
 import { useInscrito } from "../hooks/useInscrito";
 
 export const useInscritosService = () => {
-  const {parse} = useInscrito();
+  const { parse } = useInscrito();
   const [inscritosSaved, setInscritosSaved] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let query = ref(firebaseDatabase, 'inscritos')
-    
+    let query = ref(firebaseDatabase, 'vendas')
+
     return onValue(query, (snapshot) => {
       setInscritosSaved(snapshot.val())
       setLoading(false);
-    })
+    }, () => setLoading(false))
   }, [])
 
   let inscritos = [];

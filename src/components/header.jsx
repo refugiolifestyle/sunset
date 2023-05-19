@@ -3,8 +3,7 @@ import { classNames } from 'primereact/utils';
 
 const navigation = [
   { title: "Inicio", to: "" },
-  { title: "Inscritos", to: "inscritos" },
-  // { title: "Vendinha", to: "vendinha" },
+  { title: "Vendas", to: "vendas" },
 ]
 
 export const HeaderNavigation = ({ current }) => {
@@ -14,14 +13,12 @@ export const HeaderNavigation = ({ current }) => {
 
   return <div className="max-w-7xl mx-auto px-6 xl:px-0">
     <div className="flex items-center justify-between h-24">
-      <div className="flex-shrink-0">
-        <img
-          className="h-20"
-          src="/logo.png"
-          alt="Workflow"
-        />
-      </div>
-      <div className="ml-10 flex items-baseline space-x-4">
+      <img
+        className="h-16"
+        src="/assets/refugio.png"
+        alt="Workflow"
+      />
+      <div className="flex items-baseline space-x-4">
         {navigation.map((item, itemIdx) =>
           <a
             key={item.title}
@@ -37,6 +34,11 @@ export const HeaderNavigation = ({ current }) => {
           </a>
         )}
       </div>
+      <img
+        className="h-12"
+        src="/assets/sunset.png"
+        alt="Workflow"
+      />
     </div>
   </div>;
 }
