@@ -4,12 +4,16 @@ export default function Index() {
   const { permitirVenda } = useConfigService();
 
   return <section className='flyer'>
+    <header>
       <img src="/assets/refugio.png" className='refugio' />
       <div className="title">
         <img src="/assets/sunset.png" />
       </div>
-      <img src="/assets/infos.png" className='infos' />
-    </section>;
+    </header>
+    <div className="infos">
+    <img src="/assets/infos.png" />
+    </div>
+  </section>;
 }
 
 export const getStaticProps = () => {
