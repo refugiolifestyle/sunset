@@ -53,7 +53,7 @@ export default function Index() {
       </div>
     </section>
     {
-      permitirVenda
+      permitirVenda === true
         ?
         <section className="formulario">
           <form id="msform" onSubmit={handleSubmit(salvarDados, dadosInvalidos)}>
