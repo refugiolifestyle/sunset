@@ -22,11 +22,16 @@ export const useInscritosService = () => {
     inscritos = Object.values(inscritosSaved)
       .reduce((am, rede) => {
         return [
-          ...Object.values(rede),
+          ...Object.values(rede)
+            .reduce((am, rede) => {
+              return [
+                ...Object.values(rede),
+                ...am
+              ]
+            }, []),
           ...am
         ]
       }, [])
-      .map(parse)
   }
 
   return {
