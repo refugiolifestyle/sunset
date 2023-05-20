@@ -3,7 +3,7 @@ import { classNames } from 'primereact/utils';
 
 const navigation = [
   { title: "Inicio", to: "" },
-  { title: "Vendas", to: "vendas" },
+  { title: "Inscrições", to: "inscricoes" },
 ]
 
 export const HeaderNavigation = ({ current }) => {
