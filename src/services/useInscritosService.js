@@ -9,7 +9,7 @@ export const useInscritosService = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let query = ref(firebaseDatabase, 'vendas')
+    let query = ref(firebaseDatabase, 'inscricoes')
 
     return onValue(query, (snapshot) => {
       setInscritosSaved(snapshot.val())

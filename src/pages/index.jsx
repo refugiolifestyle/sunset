@@ -24,7 +24,7 @@ export default function Index() {
       setStepForm(2);
 
       let cpfPrepared = dados.cpf.replaceAll(/[.-]+/g, '');
-      let refer = ref(firebaseDatabase, `vendas/${dados.rede}/${dados.celula}/${cpfPrepared}`)
+      let refer = ref(firebaseDatabase, `inscricoes/${dados.rede}/${dados.celula}/${cpfPrepared}`)
       await set(refer, {
         ...dados,
         data: new Date().toLocaleString('pt-BR'),
@@ -41,7 +41,7 @@ export default function Index() {
     } catch (e) {
       setStepForm(1);
       console.error(e)
-      alert("Falha ao realizar a Pré-venda! Tente novamente depois.")
+      alert("Falha ao realizar a Pré-inscrição! Tente novamente depois.")
     }
   }
 
@@ -71,7 +71,7 @@ export default function Index() {
             {
               stepForm === 1
                 ? <fieldset>
-                  <h2 className="fs-title">Realize sua Pré-compra</h2>
+                  <h2 className="fs-title">Realize sua Pré-inscrição</h2>
                   <h3 className="fs-subtitle">* Dados obrigatórios</h3>
                   <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Rede *' value={watch('rede')} {...register('rede', { required: true })} options={redes} />
                   <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Células *' value={watch('celula')} {...register('celula', { required: true })} options={celulas} />
@@ -94,7 +94,7 @@ export default function Index() {
             {
               stepForm === 3
                 ? <fieldset>
-                  <h2 className="fs-title">Pré-compra Confirmada</h2>
+                  <h2 className="fs-title">Pré-inscrição Confirmada</h2>
                   <h3 className="fs-subtitle">Fique atento ao dia do Pagamento e Retirada das pulseiras!</h3>
                   <img src="/assets/success.gif" />
                 </fieldset>
