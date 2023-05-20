@@ -1,4 +1,5 @@
 import { get, ref, set } from 'firebase/database';
+import Head from 'next/head';
 import { Dropdown } from 'primereact/dropdown';
 import { InputMask } from 'primereact/inputmask';
 import { useState } from 'react';
@@ -49,7 +50,11 @@ export default function Index() {
     alert("Campos inválidos")
   }
 
-  return <main className='flex flex-col lg:flex-row justify-evenly gap-6'>
+  return <>
+  <Head>
+      <title>Sunset :: Refúgio Lifestyle</title>
+    </Head>
+    <main className='flex flex-col lg:flex-row justify-evenly gap-6'>
     <section className='flyer'>
       <div className="refugio">
         <img src="/assets/refugio.png" />
@@ -104,7 +109,8 @@ export default function Index() {
         </section>
         : null
     }
-  </main>;
+  </main>
+    </>;
 }
 
 export const getStaticProps = () => {
