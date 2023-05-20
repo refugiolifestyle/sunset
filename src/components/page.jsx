@@ -4,7 +4,7 @@ import { HeaderNavigation } from './header';
 export const Page = ({ title, actions, children }) => {
   return <>
     <Head>
-      <title>{title}</title>
+      <title>{title} :: Refúgio Lifestyle</title>
     </Head>
     <section className='w-full'>
         <HeaderNavigation current={title} />
