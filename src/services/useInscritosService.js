@@ -32,6 +32,7 @@ export const useInscritosService = () => {
           ...am
         ]
       }, [])
+      .map(parse)
   }
 
   return {
