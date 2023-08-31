@@ -102,7 +102,6 @@ body {
   display: none;
 }
 
-.home .formulario form a,
 .home .formulario form input,
 .home .formulario form select,
 .home .formulario form textarea {
@@ -136,7 +135,6 @@ body {
 }
 
 .home .formulario form .link-button {
-  display: block;
   width: 100%;
   background: #e83687;
   font-weight: bold;

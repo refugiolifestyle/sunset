@@ -87,6 +87,9 @@ export default function Index() {
                     <InputMask {...register(`cpf`, { required: true })} placeholder="CPF *" mask="999.999.999-99" />
                     <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
                     <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
+                    <hr style={{ marginBlock: '25px', width: '100%', maxWidth: '200px', marginInline: 'auto' }} />
+                    <h2 className="fs-title">Vai levar Crianças para o evento?</h2>
+                    <a className="next link-button" href="/criancas">Vincule elas aqui</a>
                   </fieldset>
                   : null
               }
