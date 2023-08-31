@@ -9,9 +9,9 @@ import { useConfigService } from '../services/useConfigService';
 import { useRedesService } from '../services/useRedesService';
 
 export const metadata = {
-  title: 'Sunset :: Refúgio Lifestyle',
-  description: 'Evento em comemoração aos 13 anos da Refúgio',
-  keywords: ['Refúgio', 'Sunset', 'Evento']
+  title: 'Summit Conference 2k23 :: Refúgio Lifestyle',
+  description: 'Conferência Refúgio 2023',
+  keywords: ['Refúgio', 'Summit', 'Evento', 'Conferência', ]
 };
 
 export default function Index() {
@@ -55,7 +55,7 @@ export default function Index() {
 
   return <>
     <Head>
-      <title>Sunset :: Refúgio Lifestyle</title>
+      <title>{metadata.title}</title>
     </Head>
     <main className='flex flex-col lg:flex-row justify-evenly gap-6'>
       <section className='flyer'>
@@ -87,9 +87,6 @@ export default function Index() {
                     <InputMask {...register(`cpf`, { required: true })} placeholder="CPF *" mask="999.999.999-99" />
                     <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
                     <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
-                    <hr style={{ marginBlock: '25px', width: '100%', maxWidth: '200px', marginInline: 'auto' }} />
-                    <h2 className="fs-title">Vai levar Crianças para o evento?</h2>
-                    <a className="next link-button" href="/criancas">Vincule elas aqui</a>
                   </fieldset>
                   : null
               }
