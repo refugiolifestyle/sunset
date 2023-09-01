@@ -19,7 +19,7 @@ const parseFirebaseObject = (firebaseObject) => {
 }
 
 const parseFirebaseObjects = (firebaseObjects) => {
-  if (!firebaseObject) return null;
+  if (!firebaseObjects) return null;
   
   let values = Object
         .entries(firebaseObjects)

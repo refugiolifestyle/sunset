@@ -7,13 +7,15 @@ import { useParse } from "../hooks/useParse";
 export const useInscritosService = () => {
   const [inscritos, setInscritos] = useState([])
   const [loading, setLoading] = useState(true)
-  const {parseFirebaseObject} = useParse();
+  const {parseFirebaseObjects} = useParse();
 
 
   useEffect(() => {
     let query = ref(firebaseDatabase, 'inscricoes')
     return onValue(query, async (snapshot) => {
-      let values = parseFirebaseObject(snapshot.val());
+      let values = parseFirebaseObjects(snapshot.val());
+
+      console.log(values);
 
       setInscritos(values)
       setLoading(false);
