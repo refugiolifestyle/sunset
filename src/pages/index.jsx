@@ -9,6 +9,7 @@ import { firebaseDatabase } from "../configs/firebase";
 import { useConfigService } from '../services/useConfigService';
 import { useRedesService } from '../services/useRedesService';
 import { useInscritoService } from '../services/useInscritoService';
+import { useParse } from '../hooks/useParse';
 
 export const metadata = {
   title: 'Summit Conference 2k23 :: Refúgio Lifestyle',
@@ -22,6 +23,7 @@ export default function Index() {
   const { search, inscrito, loading } = useInscritoService()
   const { permitirVenda } = useConfigService()
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+  const { parseInscrito } = useParse();
 
   const salvarDados = async dados => {
     try {
@@ -43,7 +45,7 @@ export default function Index() {
       else {
         let refer = ref(firebaseDatabase, `inscricoes`)
         await push(refer, {
-          ...dados,
+          ...parseInscrito(dados),
           eventos: {
             summitconference: {
               preInscricao: new Date().toLocaleString('pt-BR'),
