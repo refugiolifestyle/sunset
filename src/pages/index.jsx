@@ -118,7 +118,7 @@ export default function Index() {
                               <input {...register(`nome`, { required: true, validate: value => value.split(' ').length >= 2 })} placeholder="Nome Completo *" />
                               <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
                               <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Rede *' value={watch('rede')} {...register('rede', { required: true })} options={redes} />
-                              <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Célula *' value={watch('celula')} {...register('celula')} options={celulas} />
+                              <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Célula' value={watch('celula')} {...register('celula')} options={celulas} />
                             </>
                         : <></>
                     }
