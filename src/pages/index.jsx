@@ -35,7 +35,7 @@ export default function Index() {
             ...inscrito.eventos,
             summitconference: {
               preInscricao: new Date().toLocaleString('pt-BR'),
-              confirmada: false              
+              confirmada: false
             }
           }
         })
@@ -47,7 +47,7 @@ export default function Index() {
           eventos: {
             summitconference: {
               preInscricao: new Date().toLocaleString('pt-BR'),
-              confirmada: false              
+              confirmada: false
             }
           }
         })
@@ -106,7 +106,7 @@ export default function Index() {
                     {
                       /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf'))
                         ? loading
-                          ? <ProgressSpinner style={{width: '50px', height: '50px'}} />
+                          ? <ProgressSpinner style={{ width: '50px', height: '50px' }} />
                           : inscrito
                             ? <>
                               <p className="boasvindas">Olá <b>{inscrito.nome}</b>, que bom ver que o tempo passou e você permanece em seu <b>REFÚGIO!</b> Estamos certos de que você já viveu experiências incríveis com Jesus junto conosco e em nossa <b>Conferência 2023</b> não será diferente.</p>
@@ -120,7 +120,11 @@ export default function Index() {
                             </>
                         : <></>
                     }
-                    <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
+                    {
+                      /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
+                        ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
+                        : null
+                    }
                   </fieldset>
                   : null
               }
