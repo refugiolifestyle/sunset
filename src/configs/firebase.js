@@ -3,13 +3,14 @@ import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAE5SW_veCqMOdXxFOO1VNeLap8Arkf6rg",
-  authDomain: "refugio-sunset.firebaseapp.com",
-  databaseURL: "https://refugio-sunset-default-rtdb.firebaseio.com",
-  projectId: "refugio-sunset",
-  storageBucket: "refugio-sunset.appspot.com",
-  messagingSenderId: "538226140210",
-  appId: "1:538226140210:web:7ed6d6579fffb755b8c82b"
+  apiKey: "AIzaSyBtQeO2bgVwptL7Ye3wbe6OgoWs3apIwfM",
+  authDomain: "refugio-89c1e.firebaseapp.com",
+  databaseURL: "https://refugio-89c1e-default-rtdb.firebaseio.com",
+  projectId: "refugio-89c1e",
+  storageBucket: "refugio-89c1e.appspot.com",
+  messagingSenderId: "948076519503",
+  appId: "1:948076519503:web:7640668542a9ab60bcca3a",
+  measurementId: "G-F1V1PRHK17"
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);

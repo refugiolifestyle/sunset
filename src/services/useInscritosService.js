@@ -1,39 +1,24 @@
-import { onValue, ref } from "firebase/database";
+import { onValue, push, ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import { firebaseDatabase } from "../configs/firebase";
 import { useInscrito } from "../hooks/useInscrito";
+import { useParse } from "../hooks/useParse";
 
 export const useInscritosService = () => {
-  const { parse } = useInscrito();
-  const [inscritosSaved, setInscritosSaved] = useState(null)
+  const [inscritos, setInscritos] = useState([])
   const [loading, setLoading] = useState(true)
+  const {parseFirebaseObject} = useParse();
+
 
   useEffect(() => {
     let query = ref(firebaseDatabase, 'inscricoes')
+    return onValue(query, async (snapshot) => {
+      let values = parseFirebaseObject(snapshot.val());
 
-    return onValue(query, (snapshot) => {
-      setInscritosSaved(snapshot.val())
+      setInscritos(values)
       setLoading(false);
     }, () => setLoading(false))
   }, [])
-
-  let inscritos = [];
-  if (inscritosSaved) {
-    inscritos = Object.values(inscritosSaved)
-      .reduce((am, rede) => {
-        return [
-          ...Object.values(rede)
-            .reduce((am, rede) => {
-              return [
-                ...Object.values(rede),
-                ...am
-              ]
-            }, []),
-          ...am
-        ]
-      }, [])
-      .map(parse)
-  }
 
   return {
     inscritos,
