@@ -1,4 +1,4 @@
-import { get, ref, set } from 'firebase/database';
+import { get, ref, update } from 'firebase/database';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -16,14 +16,14 @@ const dataColumns = [
   'CPF',
   'Nome',
   'Telefone',
-  'Pulseira'
+  'summitconference'
 ];
 
 export default function TableInscritos({ inscritos, loading, actions }) {
   const { redes, celulas } = useRedesService();
   const [visibleColumns, setVisibleColumns] = useState(dataColumns);
   const [countRealRows, setCountRealRows] = useState(0);
-  const [retirandoPulseira, setRetirandoPulseira] = useState(false);
+  const [confirmacaoEmAndamento, setConfirmacaoEmAndamento] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -32,7 +32,7 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     cpf: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
     nome: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     telefone: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    pulseiraRetirada: { value: null, matchMode: FilterMatchMode.EQUALS }
+    'summitconference.confirmada': { value: null, matchMode: FilterMatchMode.EQUALS }
   });
 
   useEffect(() => {
@@ -57,35 +57,43 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     setGlobalFilterValue(value);
   };
 
-  const retirarPulseira = async dados => {
+  const confirmarEvento = async (evento, dados) => {
     try {
-      let confirmaRetirada = confirm(`Confirma a retirada da pulseira de ${dados.nome}`);
+      let confirmaRetirada = confirm(`Você confirma ${dados.nome} para esse Evento?`);
       if (confirmaRetirada) {
-        setRetirandoPulseira(true);
+        setConfirmacaoEmAndamento(true);
 
-        let cpfPrepared = dados.cpf.replaceAll(/[.-]+/g, '');
-        let refer = ref(firebaseDatabase, `inscricoes/${dados.rede}/${dados.celula}/${cpfPrepared}/pulseiraRetirada`)
-        await set(refer, true);
+        let refer = ref(firebaseDatabase, `inscricoes/${dados.id}/eventos/${evento}`)
+        await update(refer, {
+          confirmada: true,
+          confirmacao: new Date().toLocaleString('pt-BR')
+        });
 
-        let pulseiraRetirada = await get(refer);
-        if (!pulseiraRetirada.exists || !pulseiraRetirada.val()) {
-          throw 'Falha ao Retirar a pulseira'
+        let saved = await get(refer);
+        if (!saved.exists) {
+          throw 'Falha ao confirmar! Dados não foram salvos.'
+        }
+        else {
+          let inscritosaved = saved.val();
+          if (!inscritosaved.confirmada) {
+            throw 'Falha ao confirmar! Confirmação não foi realizada.'
+          }
         }
 
-        setRetirandoPulseira(false);
+        setConfirmacaoEmAndamento(false);
       }
     } catch (e) {
-      setRetirandoPulseira(false);
-      console.error(e)
-      alert("Falha ao Retirar a pulseira! Tente novamente depois.")
+      console.error(e)        
+      setConfirmacaoEmAndamento(false)
+      alert("Falha ao confirmar! Tente novamente depois.")
     }
   }
 
   return <DataTable
-    dataKey="cpf"
+    dataKey="id"
     value={inscritos}
     onValueChange={data => setCountRealRows(data?.length || 0)}
-    emptyMessage='Nenhuma venda encontrada'
+    emptyMessage='Nenhuma pessoa encontrada'
     loading={loading}
     compareSelectionBy='equals'
     header={<div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
@@ -95,7 +103,7 @@ export default function TableInscritos({ inscritos, loading, actions }) {
           <InputText type='search' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Pesquisar por..." />
         </span>
       </div>
-      <span>Total de vendas: {countRealRows} {countRealRows === 1 ? "venda" : "vendas"}</span>
+      <span>Total de pessoas: {countRealRows} {countRealRows === 1 ? "pessoa" : " pessoas"}</span>
       <MultiSelect
         value={visibleColumns}
         options={dataColumns}
@@ -158,23 +166,15 @@ export default function TableInscritos({ inscritos, loading, actions }) {
         filterPlaceholder="Filtrar por Telefone"
         header="Telefone" />
       : null}
-    {visibleColumns.includes('Pulseira')
+    {visibleColumns.includes('summitconference')
       ? <Column
-        field="pulseiraRetirada"
-        filter
-        header="Pulseira"
+        field="summitconference.confirmada"
+        header="Summit Conference 2k23"
         dataType="boolean"
         style={{ minWidth: '6rem' }}
-        body={(rowData) => !rowData.pulseiraRetirada
-          ? <Button onClick={() => retirarPulseira(rowData)} loading={retirandoPulseira} size='small' severity='success' icon="pi pi-check-circle" label={"Retirar pulseira"} />
+        body={(rowData) => !rowData.eventos?.summitconference?.confirmada
+          ? <Button onClick={() => confirmarEvento('summitconference', rowData)} loading={confirmacaoEmAndamento} size='small' severity='success' icon="pi pi-check-circle" label={"Confirmar presença"} />
           : <i className="pi pi-check-circle"></i>}
-        filterElement={(options) => <div className="flex align-items-center gap-2">
-          <TriStateCheckbox id="pulseira-retirada-filter" value={options.value} onChange={(e) => options.filterCallback(e.value)} />
-          <label htmlFor="pulseira-retirada-filter" className="font-bold">
-            Pulseira retirada
-          </label>
-        </div>
-        }
       />
       : null}
 
