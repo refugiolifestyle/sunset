@@ -5,7 +5,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
-import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+import { Dropdown } from 'primereact/dropdown';
 import { useEffect, useState } from 'react';
 import { firebaseDatabase } from '../../configs/firebase';
 import { useRedesService } from '../../services/useRedesService';
@@ -16,7 +16,7 @@ const dataColumns = [
   'CPF',
   'Nome',
   'Telefone',
-  'summitconference'
+  'Summit Conference 2k23'
 ];
 
 export default function TableInscritos({ inscritos, loading, actions }) {
@@ -32,7 +32,7 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     cpf: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
     nome: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     telefone: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    'summitconference.confirmada': { value: null, matchMode: FilterMatchMode.EQUALS }
+    'eventos.summitconference.confirmada': { value: null, matchMode: FilterMatchMode.EQUALS }
   });
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function TableInscritos({ inscritos, loading, actions }) {
         setConfirmacaoEmAndamento(false);
       }
     } catch (e) {
-      console.error(e)        
+      console.error(e)
       setConfirmacaoEmAndamento(false)
       alert("Falha ao confirmar! Tente novamente depois.")
     }
@@ -166,15 +166,24 @@ export default function TableInscritos({ inscritos, loading, actions }) {
         filterPlaceholder="Filtrar por Telefone"
         header="Telefone" />
       : null}
-    {visibleColumns.includes('summitconference')
+    {visibleColumns.includes('Summit Conference 2k23')
       ? <Column
-        field="summitconference.confirmada"
-        header="Summit Conference 2k23"
         dataType="boolean"
+        field="eventos.summitconference.confirmada"
+        header="Summit Conference 2k23"
         style={{ minWidth: '6rem' }}
-        body={(rowData) => !rowData.eventos?.summitconference?.confirmada
-          ? <Button onClick={() => confirmarEvento('summitconference', rowData)} loading={confirmacaoEmAndamento} size='small' severity='success' icon="pi pi-check-circle" label={"Confirmar presença"} />
-          : <i className="pi pi-check-circle"></i>}
+        filter
+        filterElement={options => <>
+        <Dropdown className='mr-2 p-column-filter' value={options.value} options={[
+          {label: 'Pré-inscrições realizadas', value: false},
+          {label: 'Inscrições confirmadas', value: true},
+        ]} onChange={(e) => options.filterCallback(e.value)} placeholder="Todos" />
+        </>}
+        body={(rowData) => rowData.eventos && rowData.eventos.summitconference
+          ? rowData.eventos.summitconference.confirmada
+            ? 'Confirmada'
+            : <Button onClick={() => confirmarEvento('summitconference', rowData)} loading={confirmacaoEmAndamento} size='small' severity='success' icon="pi pi-check-circle" label={"Confirmar presença"} />
+          : '-'}
       />
       : null}
 
