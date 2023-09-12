@@ -15,7 +15,7 @@ export const useInscritosService = () => {
     return onValue(query, async (snapshot) => {
       let values = parseFirebaseObjects(snapshot.val());
 
-      console.log(values);
+      window.inscritos = values
 
       setInscritos(values)
       setLoading(false);
