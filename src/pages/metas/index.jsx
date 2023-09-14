@@ -31,7 +31,7 @@ export default function Index() {
         if (!saved.exists) {
           throw 'Falha ao confirmar! Dados não foram salvos.'
         }
-        
+
         setConfirmacaoEmAndamento(false);
       }
     } catch (e) {
@@ -96,6 +96,10 @@ export default function Index() {
         showFilterMatchModes={false}
         header="Célula"
         sortable />
+      <Column
+        field="inscricoes"
+        header="Total de inscritos"
+        sortable />
       <Column field="meta"
         header="Meta"
         body={data => data.meta
@@ -104,10 +108,6 @@ export default function Index() {
             : <Button onClick={() => confirmarMeta(data)} loading={confirmacaoEmAndamento} size='small' severity='success' icon="pi pi-check-circle" label={"Bateu a meta! Confirma?"} />
           : '-'
         }
-        sortable />
-      <Column
-        field="inscricoes"
-        header="Total de inscritos"
         sortable />
     </DataTable>
   </Page>
