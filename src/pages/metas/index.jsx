@@ -63,8 +63,6 @@ export default function Index() {
     })
   }
 
-  window.inscritosByRedeCelula = inscritosByRedeCelula;
-
   return <Page
     title="Metas">
     <DataTable
