@@ -3,13 +3,15 @@ import Head from 'next/head';
 import { Dropdown } from 'primereact/dropdown';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { InputMask } from 'primereact/inputmask';
+import { Checkbox } from 'primereact/checkbox';
 import { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { firebaseDatabase } from "../configs/firebase";
 import { useConfigService } from '../services/useConfigService';
 import { useRedesService } from '../services/useRedesService';
 import { useInscritoService } from '../services/useInscritoService';
 import { useParse } from '../hooks/useParse';
+import { classNames } from 'primereact/utils';
 
 export const metadata = {
   title: 'Summit Conference 2k23 :: Refúgio Lifestyle',
@@ -22,7 +24,7 @@ export default function Index() {
   const { redes, celulas } = useRedesService()
   const { search, inscrito, loading } = useInscritoService()
   const { permitirVenda } = useConfigService()
-  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+  const { register, control, handleSubmit, watch, reset, formState: { errors } } = useForm();
   const { parseInscrito } = useParse();
 
   const salvarDados = async dados => {
@@ -50,6 +52,11 @@ export default function Index() {
             delete dados[key];
           }
         });
+
+        if(dados.naoTenhoCelula) {
+          dados.celula = 'Sem célula';
+          dados.rede = 'Sem rede';
+        }
 
         await push(refer, {
           ...parseInscrito(dados),
@@ -124,8 +131,14 @@ export default function Index() {
                             : <>
                               <input {...register(`nome`, { required: true, validate: value => value.split(' ').length >= 2 })} placeholder="Nome Completo *" />
                               <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
-                              <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Rede *' value={watch('rede')} {...register('rede', { required: true })} options={redes} />
-                              <Dropdown className='w-full mb-3 rounded-none' placeholder='Selecione sua Célula' value={watch('celula')} {...register('celula', { required: false })} options={celulas} />
+                              { !watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} /> }
+                              { !watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} /> }
+                              <div className="field-checkbox flex items-end justify-start gap-2">
+                                <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
+                                  <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                )} />
+                                <label htmlFor="accept" className={classNames({ 'p-error': errors.accept })}>Não frequento uma Célula</label>
+                              </div>
                             </>
                         : <></>
                     }

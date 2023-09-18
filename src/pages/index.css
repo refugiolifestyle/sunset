@@ -125,7 +125,7 @@ body {
   border: 0 none;
   border-radius: 1px;
   cursor: pointer;
-  margin: 10px 0;
+  margin: 24px 0 10px;
   text-decoration: none;
   font-size: 14px;
 }
@@ -171,6 +171,12 @@ body {
   font-size: 13px;
   color: #666;
   margin-bottom: 20px;
+}
+
+.home .formulario form label {
+  font-weight: normal;
+  font-size: 14px;
+  color: #666;
 }
 
 #progressbar {

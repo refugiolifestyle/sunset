@@ -20,7 +20,7 @@ const dataColumns = [
 ];
 
 export default function TableInscritos({ inscritos, loading, actions }) {
-  const { redes, celulas } = useRedesService();
+  const { redes, celulas } = useRedesService(true);
   const [visibleColumns, setVisibleColumns] = useState(dataColumns);
   const [countRealRows, setCountRealRows] = useState(0);
   const [confirmacaoEmAndamento, setConfirmacaoEmAndamento] = useState(false);
