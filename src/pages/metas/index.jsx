@@ -1,3 +1,5 @@
+'use client'
+
 import { get, ref, set } from 'firebase/database';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
