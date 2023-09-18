@@ -46,17 +46,17 @@ export default function Index() {
   if (inscritos.length) {
     inscritos.forEach(inscrito => {
       let chave = `${inscrito.rede}-${inscrito.celula}`;
-      if (!inscritosByRedeCelula.hasOwnProperty(chave)) {
-        inscritosByRedeCelula[chave] = {
-          id: chave,
-          rede: inscrito.rede,
-          celula: inscrito.celula,
-          inscricoes: 0,
-          meta: false
-        }
-      }
-      
       if (inscrito.eventos && inscrito.eventos[evento] && inscrito.eventos[evento].confirmada) {
+        if (!inscritosByRedeCelula.hasOwnProperty(chave)) {
+          inscritosByRedeCelula[chave] = {
+            id: chave,
+            rede: inscrito.rede,
+            celula: inscrito.celula,
+            inscricoes: 0,
+            meta: false
+          }
+        }
+
         inscritosByRedeCelula[chave]['inscricoes'] += 1
         inscritosByRedeCelula[chave]['meta'] = inscritosByRedeCelula[chave]['inscricoes'] >= eventos[evento].meta
       }
