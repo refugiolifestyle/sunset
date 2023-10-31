@@ -15,7 +15,7 @@ export const HeaderNavigation = ({ current }) => {
   return <div className="max-w-7xl mx-auto px-6 xl:px-0">
     <div className="flex items-center justify-between h-24">
       <img
-        className="h-12"
+        className="h-16"
         src="/assets/sunset.png"
         alt="Workflow"
       />
@@ -24,12 +24,9 @@ export const HeaderNavigation = ({ current }) => {
           <a
             key={item.title}
             href={`/${item.to}`}
-            className={classNames(
-              firstPage == item.to
-                ? "bg-white text-black"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-              "transition-all px-3 py-2 rounded-md text-sm font-medium"
-            )}
+            className={`transition-all px-3 py-2 rounded-md text-sm font-medium ${firstPage == item.to
+              ? "bg-white text-black"
+              : "text-gray-300 hover:bg-gray-700 hover:text-white"}`}
           >
             {item.title}
           </a>

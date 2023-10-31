@@ -14,9 +14,9 @@ import { useParse } from '../hooks/useParse';
 import { classNames } from 'primereact/utils';
 
 export const metadata = {
-  title: 'Summit Conference 2k23 :: Refúgio Lifestyle',
-  description: 'Conferência Refúgio 2023',
-  keywords: ['Refúgio', 'Summit', 'Evento', 'Conferência',]
+  title: 'Festa da Colheita 2023 :: Refúgio Lifestyle',
+  description: 'Festa da Colheita 2023',
+  keywords: ['Refúgio', 'Festa da colheita', 'Evento', '2023', "Quadrangular"]
 };
 
 export default function Index() {
@@ -37,7 +37,7 @@ export default function Index() {
           ...inscrito,
           eventos: {
             ...inscrito.eventos,
-            summitconference: {
+            festadacolheita2023: {
               preInscricao: new Date().toLocaleString('pt-BR'),
               confirmada: false
             }
@@ -61,7 +61,7 @@ export default function Index() {
         await push(refer, {
           ...parseInscrito(dados),
           eventos: {
-            summitconference: {
+            festadacolheita2023: {
               preInscricao: new Date().toLocaleString('pt-BR'),
               confirmada: false
             }
@@ -97,7 +97,7 @@ export default function Index() {
     <Head>
       <title>{metadata.title}</title>
     </Head>
-    <main className='flex flex-col lg:flex-row justify-evenly gap-6'>
+    <main className='flex flex-col lg:flex-row justify-evently gap-12'>
       <section className='flyer'>
         <div className="infos">
           <img src="/assets/infos.png" />

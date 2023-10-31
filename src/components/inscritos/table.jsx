@@ -6,7 +6,7 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'primereact/dropdown';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { firebaseDatabase } from '../../configs/firebase';
 import { useRedesService } from '../../services/useRedesService';
 
@@ -16,7 +16,7 @@ const dataColumns = [
   'CPF',
   'Nome',
   'Telefone',
-  'Summit Conference 2k23'
+  'Festa da Colheita 2023'
 ];
 
 export default function TableInscritos({ inscritos, loading, actions }) {
@@ -24,7 +24,6 @@ export default function TableInscritos({ inscritos, loading, actions }) {
   const [visibleColumns, setVisibleColumns] = useState(dataColumns);
   const [countRealRows, setCountRealRows] = useState(0);
   const [confirmacaoEmAndamento, setConfirmacaoEmAndamento] = useState(false);
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     rede: { value: null, matchMode: FilterMatchMode.IN },
@@ -32,8 +31,10 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     cpf: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
     nome: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
     telefone: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    'eventos.summitconference.confirmada': { value: null, matchMode: FilterMatchMode.EQUALS }
+    'eventos.festadacolheita2023.confirmada': { value: null, matchMode: FilterMatchMode.EQUALS }
   });
+  
+  const globalFilterRef = useRef(null);
 
   useEffect(() => {
     setCountRealRows(inscritos.length)
@@ -48,13 +49,10 @@ export default function TableInscritos({ inscritos, loading, actions }) {
   };
 
   const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
     let _filters = { ...filters };
-
-    _filters['global'].value = value;
+    _filters['global'].value = globalFilterRef ? globalFilterRef.current.value : "";
 
     setFilters(_filters);
-    setGlobalFilterValue(value);
   };
 
   const confirmarEvento = async (evento, dados) => {
@@ -98,10 +96,10 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     compareSelectionBy='equals'
     header={<div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
       <div className="flex justify-content-end">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText type='search' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Pesquisar por..." />
-        </span>
+        <div className="p-inputgroup flex-1">
+          <InputText ref={globalFilterRef} type="search" placeholder="Pesquisar por..." />
+          <Button icon="pi pi-search" className="p-button-primary" onClick={onGlobalFilterChange} />
+        </div>
       </div>
       <span>Total de pessoas: {countRealRows} {countRealRows === 1 ? "pessoa" : " pessoas"}</span>
       <MultiSelect
@@ -144,45 +142,36 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     {visibleColumns.includes('Nome')
       ? <Column
         field="nome"
-        filterField="nome"
-        filter
-        filterPlaceholder="Filtrar por Nome"
         header="Nome"
         sortable />
       : null}
     {visibleColumns.includes('CPF')
       ? <Column
         field="cpf"
-        filterField="cpf"
-        filter
-        filterPlaceholder="Filtrar por CPF"
         header="CPF" />
       : null}
     {visibleColumns.includes('Telefone')
       ? <Column
         field="telefone"
-        filterField="telefone"
-        filter
-        filterPlaceholder="Filtrar por Telefone"
         header="Telefone" />
       : null}
-    {visibleColumns.includes('Summit Conference 2k23')
+    {visibleColumns.includes('Festa da Colheita 2023')
       ? <Column
         dataType="boolean"
-        field="eventos.summitconference.confirmada"
-        header="Summit Conference 2k23"
+        field="eventos.festadacolheita2023.confirmada"
+        header="Festa da Colheita 2023"
         style={{ minWidth: '6rem' }}
         filter
         filterElement={options => <>
-        <Dropdown className='mr-2 p-column-filter' value={options.value} options={[
-          {label: 'Pré-inscrições realizadas', value: false},
-          {label: 'Inscrições confirmadas', value: true},
-        ]} onChange={(e) => options.filterCallback(e.value)} placeholder="Todos" />
+          <Dropdown className='mr-2 p-column-filter' value={options.value} options={[
+            { label: 'Pré-inscrições realizadas', value: false },
+            { label: 'Inscrições confirmadas', value: true },
+          ]} onChange={(e) => options.filterCallback(e.value)} placeholder="Todos" />
         </>}
-        body={(rowData) => rowData.eventos && rowData.eventos.summitconference
-          ? rowData.eventos.summitconference.confirmada
+        body={(rowData) => rowData.eventos && rowData.eventos.festadacolheita2023
+          ? rowData.eventos.festadacolheita2023.confirmada
             ? 'Confirmada'
-            : <Button onClick={() => confirmarEvento('summitconference', rowData)} loading={confirmacaoEmAndamento} size='small' severity='success' icon="pi pi-check-circle" label={"Confirmar presença"} />
+            : <Button onClick={() => confirmarEvento('festadacolheita2023', rowData)} loading={confirmacaoEmAndamento} size='small' severity='success' icon="pi pi-check-circle" label={"Confirmar presença"} />
           : '-'}
       />
       : null}
