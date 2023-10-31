@@ -16,7 +16,7 @@ import { classNames } from 'primereact/utils';
 export const metadata = {
   title: 'Festa da Colheita 2023 :: Refúgio Lifestyle',
   description: 'Festa da Colheita 2023',
-  keywords: ['Refúgio', 'Festa da colheita', 'Evento', '2023', "Quadrangular"]
+  keywords: ['Refúgio', 'Festa da colheita', 'Evento', '2023']
 };
 
 export default function Index() {
