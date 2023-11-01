@@ -125,8 +125,9 @@ export default function Index() {
                           ? <ProgressSpinner style={{ width: '50px', height: '50px' }} />
                           : inscrito
                             ? <>
-                              <p className="boasvindas">Olá <b>{inscrito.nome}</b>, que bom ver que o tempo passou e você permanece em seu <b>REFÚGIO!</b> Estamos certos de que você já viveu experiências incríveis com Jesus junto conosco e em nossa <b>Conferência 2023</b> não será diferente.</p>
-                              <p className="boasvindas">Clique abaixo e garanta sua pré-inscrição para viver esse mover.</p>
+                              <p className="boasvindas">Olá <b>{inscrito.nome}</b>, que bom ver que o tempo passou e você permanece em seu Refúgio!</p>
+                              <p>Estamos certos que foi um ano de colheita e só foi melhor porque tivemos você caminhando conosco. Chegou a hora de celebrar as vitórias e aprendizados desse ano com muita alegria e comunhão. Vamos juntos para a <b>FESTA DA COLHEITA 2023!</b></p>
+                              <p className="boasvindas">Clique abaixo e garanta sua pré-inscrição para viver essa noite incrível na presença de Deus.</p>
                             </>
                             : <>
                               <input {...register(`nome`, { required: true, validate: value => value.split(' ').length >= 2 })} placeholder="Nome Completo *" />
