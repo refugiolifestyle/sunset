@@ -14,9 +14,6 @@ PrimeReact.inputStyle = 'filled';
 
 function MyApp({ Component, pageProps }) {
   return <div className="home">
-    <div className="graphic">
-      <Image src="/assets/bg.png" layout="fill" />
-    </div>
     <Component {...pageProps} />
   </div>
 }

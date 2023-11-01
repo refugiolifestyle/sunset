@@ -26,24 +26,15 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-}
-
-.home .graphic {
-  min-height: 100vh;
-  height: 100%;
-  min-width: 100vw;
-  width: 100%;
-  background-color: #323333;
+  background-image: url(/_next/image?url=%2Fassets%2Fbg.png&w=3840&q=75);
   background-repeat: no-repeat;
   background-size: cover;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0;
+  min-width: 100vw;
+  min-height: 100vh;
 }
 
-.home>*:not(.graphic) {
-  position: relative;
+.home main {
+  padding: 50px 0;
   z-index: 5;
 }
 
