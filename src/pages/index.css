@@ -31,11 +31,7 @@ body {
   background-size: cover;
   min-width: 100vw;
   min-height: 100vh;
-}
-
-.home main {
   padding: 50px 0;
-  z-index: 5;
 }
 
 .home .flyer {
