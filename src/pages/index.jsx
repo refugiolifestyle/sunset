@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function Index() {
   const [stepForm, setStepForm] = useState(1);
-  const { redes, celulas } = useRedesService()
+  const { redes, celulas, setRedeRef } = useRedesService()
   const { search, inscrito, loading } = useInscritoService()
   const { permitirVenda } = useConfigService()
   const { register, control, handleSubmit, watch, reset, formState: { errors } } = useForm();
@@ -84,6 +84,18 @@ export default function Index() {
       search(cpf)
     }
   }, [watch('cpf')])
+
+  useEffect(() => {
+    let redeWatch = watch('rede');
+    if (redeWatch) {
+      redeWatch = new String(redeWatch)
+        .replaceAll(/[^\d]+/g, '')
+
+        setRedeRef(redeWatch)
+    } else {
+      setRedeRef(null);
+    }
+  }, [watch('rede')])
 
   const dadosInvalidos = dados => {
     if (dados.nome.type == 'validate') {
