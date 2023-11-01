@@ -98,7 +98,8 @@ export default function Index() {
   }, [watch('rede')])
 
   const dadosInvalidos = dados => {
-    if (dados.nome.type == 'validate') {
+    console.log()
+    if (dados?.nome?.type == 'validate') {
       alert("Digite seu Nome completo")
     } else {
       alert("Campos inválidos")
@@ -141,7 +142,7 @@ export default function Index() {
                               <p className="boasvindas">Clique abaixo e garanta sua pré-inscrição para viver essa noite incrível na presença de Deus.</p>
                             </>
                             : <>
-                              <input {...register(`nome`, { required: true, validate: value => value.split(' ').length >= 2 })} placeholder="Nome Completo *" />
+                              <input {...register(`nome`, { required: true, validate: value => new String(value).split(' ').length >= 2 })} placeholder="Nome Completo *" />
                               <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
                               { !watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} /> }
                               { !watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} /> }
