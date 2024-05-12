@@ -12,7 +12,7 @@ export const HeaderNavigation = ({ current }) => {
   const [firstPage, ..._] = asPath.slice(1)
     .split('/');
 
-  return <div className="max-w-7xl mx-auto px-6 xl:px-0">
+  return <div className="max-w-7xl mx-auto px-6 xl:px-0 border-b border-gray-700">
     <div className="flex items-center justify-between h-24">
       <img
         className="h-16"
@@ -26,7 +26,7 @@ export const HeaderNavigation = ({ current }) => {
             href={`/${item.to}`}
             className={`transition-all px-3 py-2 rounded-md text-sm font-medium ${firstPage == item.to
               ? "bg-white text-black"
-              : "text-gray-300 hover:bg-gray-700 hover:text-white"}`}
+              : "text-white hover:bg-gray-700 hover:text-white"}`}
           >
             {item.title}
           </a>

@@ -24,15 +24,14 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  background-image: url(/_next/image?url=%2Fassets%2Fbg.png&w=3840&q=75);
+  background-image: url(/_next/image?url=%2Fassets%2Fbg.jpg&w=3840&q=75);
   background-repeat: no-repeat;
   background-size: cover;
   min-width: 100vw;
   min-height: 100vh;
-  padding: 50px 0;
-}
+  }
 
 .home .flyer {
   display: flex;
@@ -106,7 +105,7 @@ body {
 
 .home .formulario form .action-button {
   width: 100%;
-  background: #9d0aa9;
+  background: #ffaa45;
   font-weight: bold;
   color: white;
   border: 0 none;
@@ -119,7 +118,7 @@ body {
 
 .home .formulario form .action-button:hover,
 .home .formulario form .action-button:focus {
-  box-shadow: 0 0 0 2px white, 0 0 0 3px #9d0aa9;
+  box-shadow: 0 0 0 2px white, 0 0 0 3px #ffaa45;
 }
 
 .home .formulario form .link-button {
@@ -193,17 +192,17 @@ body {
   background: white;
   border-radius: 3px;
   margin: 0 auto 5px auto;
+  z-index: 999;
 }
 
 #progressbar li:after {
   content: '';
-  width: 100%;
+  width: 90%;
   height: 2px;
-  background: white;
   position: absolute;
-  left: -50%;
+  left: -45%;
   top: 9px;
-  z-index: -1;
+  z-index: 9;
 }
 
 #progressbar li:first-child:after {
@@ -212,7 +211,7 @@ body {
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-  background: #9d0aa9;
+  background: #ffaa45;
   color: white;
 }
 

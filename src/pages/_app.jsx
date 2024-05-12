@@ -5,8 +5,6 @@ import "tailwindcss/tailwind.css";
 import "../configs/locale";
 import "./index.css";
 
-import Image from "next/image";
-
 import PrimeReact from "primereact/api";
 PrimeReact.cssTransition = true;
 PrimeReact.inputStyle = 'outlined';

@@ -4,7 +4,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { InputMask } from 'primereact/inputmask';
 import { Checkbox } from 'primereact/checkbox';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { firebaseDatabase } from "../configs/firebase";
 import { useConfigService } from '../services/useConfigService';
@@ -14,17 +14,19 @@ import { useParse } from '../hooks/useParse';
 import { classNames } from 'primereact/utils';
 
 export const metadata = {
-  title: 'Festa da Colheita 2023 :: Refúgio Lifestyle',
-  description: 'Festa da Colheita 2023',
-  keywords: ['Refúgio', 'Festa da colheita', 'Evento', '2023']
+  title: 'Sunset 2024 :: Refúgio Lifestyle',
+  description: 'Sunset 2024',
+  keywords: ['Refúgio', 'Sunset', 'Evento', '2024']
 };
 
 export default function Index() {
   const [stepForm, setStepForm] = useState(1);
-  const { redes, celulas, setRedeRef } = useRedesService()
+  const { redes, celulas, setRedeRef,  } = useRedesService()
   const { search, inscrito, loading } = useInscritoService()
-  const { permitirVenda } = useConfigService()
-  const { register, control, handleSubmit, watch, reset, formState: { errors } } = useForm();
+  const { permitirVenda, evento, loading: loadingConfig } = useConfigService()
+  const { register, setValue, getValues, control, handleSubmit, watch, reset, formState: { errors } } = useForm({
+    values: inscrito
+  });
   const { parseInscrito } = useParse();
 
   const salvarDados = async dados => {
@@ -34,10 +36,10 @@ export default function Index() {
       if (inscrito) {
         let refer = ref(firebaseDatabase, `inscricoes/${inscrito.id}`)
         await set(refer, {
-          ...inscrito,
+          ...dados,
           eventos: {
             ...inscrito.eventos,
-            festadacolheita2023: {
+            [evento]: {
               preInscricao: new Date().toLocaleString('pt-BR'),
               confirmada: false
             }
@@ -53,7 +55,7 @@ export default function Index() {
           }
         });
 
-        if(dados.naoTenhoCelula) {
+        if (dados.naoTenhoCelula) {
           dados.celula = 'Sem célula';
           dados.rede = 'Sem rede';
         }
@@ -61,7 +63,7 @@ export default function Index() {
         await push(refer, {
           ...parseInscrito(dados),
           eventos: {
-            festadacolheita2023: {
+            [evento]: {
               preInscricao: new Date().toLocaleString('pt-BR'),
               confirmada: false
             }
@@ -91,14 +93,14 @@ export default function Index() {
       redeWatch = new String(redeWatch)
         .replaceAll(/[^\d]+/g, '')
 
-        setRedeRef(redeWatch)
+      setRedeRef(redeWatch)
     } else {
       setRedeRef(null);
     }
   }, [watch('rede')])
 
   const dadosInvalidos = dados => {
-    console.log()
+    console.log(dados, getValues(), inscrito)
     if (dados?.nome?.type == 'validate') {
       alert("Digite seu Nome completo")
     } else {
@@ -115,6 +117,7 @@ export default function Index() {
         <div className="infos">
           <img src="/assets/infos.png" />
         </div>
+        {loadingConfig && <ProgressSpinner style={{ width: '50px', height: '50px', marginTop: '10px' }} />}
       </section>
       {
         permitirVenda === true
@@ -135,30 +138,48 @@ export default function Index() {
                     {
                       /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf'))
                         ? loading
-                          ? <ProgressSpinner style={{ width: '50px', height: '50px' }} />
+                          ? <ProgressSpinner style={{ width: '50px', height: '50px', marginTop: '10px' }} />
                           : inscrito
-                            ? <>
-                              <p className="boasvindas">Olá <b>{inscrito.nome}</b>, estamos certos que foi um ano de colheita e só foi melhor porque tivemos você caminhando conosco. Chegou a hora de celebrar as vitórias e aprendizados desse ano com muita alegria e comunhão. Vamos juntos para a <b>FESTA DA COLHEITA 2023!</b></p>
-                              <p className="boasvindas">Clique abaixo e garanta sua pré-inscrição para viver essa noite incrível na presença de Deus.</p>
-                            </>
+                            ? inscrito.eventos && inscrito.eventos[evento]
+                              ? <>
+                                <p className="boasvindas">Olá, <b>{inscrito.nome}</b>, estamos muito felizes de te ver novamente em mais um evento nosso.</p>
+                                {
+                                  inscrito.eventos[evento].confirmada
+                                    ? <p className="boasvindas"><b>Sua vaga já foi confirmada.</b></p>
+                                    : <>
+                                    <p className="boasvindas"><b>Aguardando a confirmação da inscrição</b>, fique atento ao dia do pagamento e retirada das pulseiras.</p>
+                                    </>
+                                }
+                              </>
+                              : <>
+                                <p className="boasvindas">Olá, <b>{inscrito.nome}</b>, estamos muito felizes de te ver novamente em mais um evento nosso.</p>
+                                <p className="boasvindas">Confirme os dados abaixo para garantir sua vaga.</p>
+                                <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede *`} value={watch('rede')} {...register('rede', { required: true })} options={redes} />
+                                <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula *`} value={watch('celula')} {...register('celula', { required: true })} options={celulas} />
+                                {
+                                  /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
+                                    ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
+                                    : null
+                                }
+                              </>
                             : <>
                               <input {...register(`nome`, { required: true, validate: value => new String(value).split(' ').length >= 2 })} placeholder="Nome Completo *" />
                               <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
-                              { !watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} /> }
-                              { !watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} /> }
+                              {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} />}
+                              {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} />}
                               <div className="field-checkbox flex items-end justify-start gap-2">
                                 <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
                                   <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
-                                <label htmlFor="accept" className={classNames({ 'p-error': errors.accept })}>Não frequento uma Célula</label>
+                                <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Não frequento uma Célula</label>
                               </div>
+                              {
+                                /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
+                                  ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
+                                  : null
+                              }
                             </>
                         : <></>
-                    }
-                    {
-                      /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
-                        ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
-                        : null
                     }
                   </fieldset>
                   : null
