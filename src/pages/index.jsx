@@ -12,6 +12,7 @@ import { useRedesService } from '../services/useRedesService';
 import { useInscritoService } from '../services/useInscritoService';
 import { useParse } from '../hooks/useParse';
 import { classNames } from 'primereact/utils';
+import {cpf} from 'cpf-cnpj-validator'
 
 export const metadata = {
   title: 'Sunset 2024 :: Refúgio Lifestyle',
@@ -81,9 +82,9 @@ export default function Index() {
   }
 
   useEffect(() => {
-    let cpf = watch('cpf');
-    if (/\d{3}.\d{3}.\d{3}-\d{2}/.test(cpf)) {
-      search(cpf)
+    let cpfNumber = watch('cpf');
+    if (/\d{3}.\d{3}.\d{3}-\d{2}/.test(cpfNumber) && cpf.isValid(cpfNumber)) {
+      search(cpfNumber)
     }
   }, [watch('cpf')])
 
@@ -136,7 +137,7 @@ export default function Index() {
                     <h3 className="fs-subtitle">* Dados obrigatórios</h3>
                     <InputMask {...register(`cpf`, { required: true })} placeholder="CPF *" mask="999.999.999-99" />
                     {
-                      /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf'))
+                      /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && cpf.isValid(watch('cpf'))
                         ? loading
                           ? <ProgressSpinner style={{ width: '50px', height: '50px', marginTop: '10px' }} />
                           : inscrito
@@ -145,9 +146,9 @@ export default function Index() {
                                 <p className="boasvindas">Olá, <b>{inscrito.nome}</b>, estamos muito felizes de te ver novamente em mais um evento nosso.</p>
                                 {
                                   inscrito.eventos[evento].confirmada
-                                    ? <p className="boasvindas"><b>Sua vaga já foi confirmada.</b></p>
+                                    ? <p className="boasvindas"><b>Sua inscrição já foi confirmada.</b></p>
                                     : <>
-                                    <p className="boasvindas"><b>Aguardando a confirmação da inscrição</b>, fique atento(a) ao dia do pagamento e retirada das pulseiras.</p>
+                                    <p className="boasvindas"><b>Aguardando a confirmação da sua inscrição</b>, fique atento(a) ao dia do pagamento e retirada das pulseiras.</p>
                                     </>
                                 }
                               </>
@@ -157,7 +158,7 @@ export default function Index() {
                                 <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede *`} value={watch('rede')} {...register('rede', { required: true })} options={redes} />
                                 <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula *`} value={watch('celula')} {...register('celula', { required: true })} options={celulas} />
                                 {
-                                  /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
+                                  /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && cpf.isValid(watch('cpf')) && !loading
                                     ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
                                     : null
                                 }
