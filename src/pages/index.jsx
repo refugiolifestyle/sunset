@@ -148,7 +148,7 @@ export default function Index() {
                                   inscrito.eventos[evento].confirmada
                                     ? <p className="boasvindas"><b>Sua inscrição já foi confirmada.</b></p>
                                     : <>
-                                    <p className="boasvindas"><b>Aguardando a confirmação da sua inscrição</b>, fique atento(a) ao dia do pagamento e retirada das pulseiras.</p>
+                                    <p className="boasvindas"><b>Aguarde a confirmação da sua inscrição</b>, fique atento(a) ao dia do pagamento e retirada das pulseiras.</p>
                                     </>
                                 }
                               </>
