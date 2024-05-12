@@ -18,7 +18,11 @@ export const useInscritoService = () => {
     let unSubscribe = onValue(search, snapshot => {
       let inscritoParsed = parseFirebaseObject(snapshot.val());
 
-      setInscrito(inscritoParsed);
+      setInscrito({
+        ...inscritoParsed,
+        rede: null,
+        celula: null
+      });
       setLoading(false);
       unSubscribe();
     })
