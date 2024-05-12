@@ -134,7 +134,7 @@ export default function Index() {
                   ? <fieldset>
                     <h2 className="fs-title">Realize sua Pré-inscrição</h2>
                     <h3 className="fs-subtitle">* Dados obrigatórios</h3>
-                    <InputMask {...register(`cpf`, { required: true })} placeholder="CPF *" mask="999.999.999-99" autoFocus />
+                    <InputMask {...register(`cpf`, { required: true })} placeholder="CPF *" mask="999.999.999-99" />
                     {
                       /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf'))
                         ? loading
