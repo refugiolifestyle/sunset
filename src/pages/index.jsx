@@ -215,9 +215,3 @@ export default function Index() {
     </main>
   </>;
 }
-
-export const getStaticProps = () => {
-  return {
-    props: {}
-  }
-}
