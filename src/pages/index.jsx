@@ -37,6 +37,7 @@ export default function Index() {
       if (inscrito) {
         let refer = ref(firebaseDatabase, `inscricoes/${inscrito.id}`)
         await set(refer, {
+          ...inscrito,
           ...dados,
           eventos: {
             ...inscrito.eventos,
@@ -101,7 +102,6 @@ export default function Index() {
   }, [watch('rede')])
 
   const dadosInvalidos = dados => {
-    console.log(dados, getValues(), inscrito)
     if (dados?.nome?.type == 'validate') {
       alert("Digite seu Nome completo")
     } else {
