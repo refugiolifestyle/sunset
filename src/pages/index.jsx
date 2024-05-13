@@ -49,8 +49,6 @@ export default function Index() {
         })
       }
       else {
-        let refer = ref(firebaseDatabase, `inscricoes`)
-
         Object.keys(dados).forEach(key => {
           if (dados[key] === undefined) {
             delete dados[key];
@@ -62,10 +60,11 @@ export default function Index() {
           dados.rede = 'Sem rede';
         }
 
-        let key = await push(refer)
-        await set(key, {
+        let cpfNumb = dados.cpf.replaceAll('-', '').replaceAll('.', '')
+        let refer = ref(firebaseDatabase, `inscricoes/${cpfNumb}`)
+        await push(refer, {
           ...parseInscrito(dados),
-          id: key.key,
+          id: cpfNumb,
           eventos: {
             [evento]: {
               preInscricao: new Date().toLocaleString('pt-BR'),
