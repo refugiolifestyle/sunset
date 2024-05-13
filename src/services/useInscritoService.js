@@ -16,13 +16,18 @@ export const useInscritoService = () => {
     let search = query(refer, orderByChild('cpf'), equalTo(cpf));
 
     let unSubscribe = onValue(search, snapshot => {
-      let inscritoParsed = parseFirebaseObject(snapshot.val());
+      if (snapshot.exists()) {
+        let inscritoParsed = parseFirebaseObject(snapshot.val());
 
-      setInscrito({
-        ...inscritoParsed,
-        rede: null,
-        celula: null
-      });
+        setInscrito({
+          ...inscritoParsed,
+          rede: null,
+          celula: null
+        });
+      } else {
+        setInscrito(null)
+      }
+      
       setLoading(false);
       unSubscribe();
     })
