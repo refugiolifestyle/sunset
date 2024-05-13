@@ -62,7 +62,7 @@ export default function Index() {
 
         let cpfNumb = dados.cpf.replaceAll('-', '').replaceAll('.', '')
         let refer = ref(firebaseDatabase, `inscricoes/${cpfNumb}`)
-        await push(refer, {
+        await set(refer, {
           ...parseInscrito(dados),
           id: cpfNumb,
           eventos: {
