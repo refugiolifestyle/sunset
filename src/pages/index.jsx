@@ -62,8 +62,10 @@ export default function Index() {
           dados.rede = 'Sem rede';
         }
 
-        await push(refer, {
+        let key = await push(refer)
+        await set(key, {
           ...parseInscrito(dados),
+          id: key.key,
           eventos: {
             [evento]: {
               preInscricao: new Date().toLocaleString('pt-BR'),
