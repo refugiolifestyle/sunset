@@ -37,8 +37,12 @@ export default function Index() {
       if (inscrito) {
         let refer = ref(firebaseDatabase, `inscricoes/${inscrito.id}`)
         await set(refer, {
-          ...inscrito,
-          ...dados,
+          celula: dados.celula,
+          cpf: inscrito.cpf,
+          id: inscrito.id,
+          nome: inscrito.nome,
+          rede: dados.rede,
+          telefone: inscrito.telefone,
           eventos: {
             ...inscrito.eventos,
             [evento]: {
