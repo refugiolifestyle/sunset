@@ -16,8 +16,34 @@ import { cpf } from 'cpf-cnpj-validator'
 
 export const metadata = {
   title: 'Sunset 2024 :: Refúgio Lifestyle',
-  description: 'Sunset 2024',
-  keywords: ['Refúgio', 'Sunset', 'Evento', '2024']
+  description: 'Nosso aniversário está chegando e para comemorar vem aí o SUNSET 2024',
+  keywords: ['Refúgio', 'Sunset', 'Evento', '2024'],
+  openGraph: {
+    title: 'Sunset 2024 :: Refúgio Lifestyle',
+    description: 'Nosso aniversário está chegando e para comemorar vem aí o SUNSET 2024',
+    url: 'https://arefugio.com.br',
+    siteName: 'Refúgio Lifestyle',
+    images: [
+      {
+        url: 'https://arefugio.com.br/assets/images/logo-302x44.png',
+        width: 302,
+        height: 44,
+      }
+    ],
+    locale: 'pt-BR',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+  },
+  icons: {
+    icon: [
+      { url: 'https://arefugio.com.br/assets/images/favicon-dark.png', media: '(prefers-color-scheme: light)' },
+      { url: 'https://arefugio.com.br/assets/images/favicon-light.png', media: '(prefers-color-scheme: dark)' }
+    ],
+  },
 };
 
 export default function Index() {
