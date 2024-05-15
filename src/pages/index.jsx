@@ -172,14 +172,14 @@ export default function Index() {
                                 <p className="boasvindas">Confirme os dados abaixo para garantir sua vaga.</p>
                                 {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} />}
                                 {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} />}
-                                <div className="field-checkbox flex items-end justify-start gap-2 mb-3">
+                                <div className="field-checkbox flex items-end justify-start gap-2">
                                   <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
                                     <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
                                   )} />
                                   <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Convidado/Não frequenta uma célula</label>
                                 </div>
                                 {
-                                  watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado? se sim qual denominação?" />
+                                  watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado? se sim qual denominação?" className='mt-3' />
                                 }
                                 {
                                   /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && cpf.isValid(watch('cpf')) && !loading
@@ -192,14 +192,14 @@ export default function Index() {
                               <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
                               {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} />}
                               {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} />}
-                              <div className="field-checkbox flex items-end justify-start gap-2 mb-3">
+                              <div className="field-checkbox flex items-end justify-start gap-2">
                                 <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
                                   <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
                                 <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Convidado/Não frequenta uma célula</label>
                               </div>
                               {
-                                watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado? se sim qual denominação?" />
+                                watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado? se sim qual denominação?" className='mt-3' />
                               }
                               {
                                 /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
