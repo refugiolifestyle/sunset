@@ -12,7 +12,7 @@ import { useRedesService } from '../services/useRedesService';
 import { useInscritoService } from '../services/useInscritoService';
 import { useParse } from '../hooks/useParse';
 import { classNames } from 'primereact/utils';
-import {cpf} from 'cpf-cnpj-validator'
+import { cpf } from 'cpf-cnpj-validator'
 
 export const metadata = {
   title: 'Sunset 2024 :: Refúgio Lifestyle',
@@ -22,7 +22,7 @@ export const metadata = {
 
 export default function Index() {
   const [stepForm, setStepForm] = useState(1);
-  const { redes, celulas, setRedeRef,  } = useRedesService()
+  const { redes, celulas, setRedeRef, } = useRedesService()
   const { search, inscrito, loading } = useInscritoService()
   const { permitirVenda, evento, loading: loadingConfig } = useConfigService()
   const { register, setValue, getValues, control, handleSubmit, watch, reset, formState: { errors } } = useForm({
@@ -36,12 +36,10 @@ export default function Index() {
 
       if (inscrito) {
         let refer = ref(firebaseDatabase, `inscricoes/${inscrito.id}`)
-        await set(refer, {
-          celula: dados.celula,
-          cpf: inscrito.cpf,
+        let novoInscrito = {
           id: inscrito.id,
+          cpf: inscrito.cpf,
           nome: inscrito.nome,
-          rede: dados.rede,
           telefone: inscrito.telefone,
           eventos: {
             ...inscrito.eventos,
@@ -50,7 +48,19 @@ export default function Index() {
               confirmada: false
             }
           }
-        })
+        }
+
+        if (dados.naoTenhoCelula) {
+          novoInscrito.celula = 'Sem célula';
+          novoInscrito.rede = 'Sem rede';
+          novoInscrito.naoTenhoCelula = true;
+          novoInscrito.denominacao = dados.denominacao;
+        } else {
+          novoInscrito.celula = dados.celula;
+          novoInscrito.rede = dados.rede;
+        }
+
+        await set(refer, novoInscrito)
       }
       else {
         Object.keys(dados).forEach(key => {
@@ -153,15 +163,24 @@ export default function Index() {
                                   inscrito.eventos[evento].confirmada
                                     ? <p className="boasvindas"><b>Sua inscrição já foi confirmada.</b></p>
                                     : <>
-                                    <p className="boasvindas"><b>Aguarde a confirmação da sua inscrição</b>, fique atento(a) ao dia do pagamento e retirada das pulseiras.</p>
+                                      <p className="boasvindas"><b>Aguarde a confirmação da sua inscrição</b>, fique atento(a) ao dia do pagamento e retirada das pulseiras.</p>
                                     </>
                                 }
                               </>
                               : <>
                                 <p className="boasvindas">Olá, <b>{inscrito.nome}</b>, estamos muito felizes de te ver novamente em mais um evento nosso.</p>
                                 <p className="boasvindas">Confirme os dados abaixo para garantir sua vaga.</p>
-                                <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede *`} value={watch('rede')} {...register('rede', { required: true })} options={redes} />
-                                <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula *`} value={watch('celula')} {...register('celula', { required: true })} options={celulas} />
+                                {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} />}
+                                {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} />}
+                                <div className="field-checkbox flex items-end justify-start gap-2 mb-3">
+                                  <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
+                                    <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                  )} />
+                                  <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Não frequento uma Célula</label>
+                                </div>
+                                {
+                                  watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Outra denominação, se sim qual?" />
+                                }
                                 {
                                   /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && cpf.isValid(watch('cpf')) && !loading
                                     ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
@@ -173,12 +192,15 @@ export default function Index() {
                               <InputMask {...register(`telefone`, { required: true })} placeholder="Telefone *" mask="(99) 99999-9999" />
                               {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Rede ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('rede')} {...register('rede', { required: !watch('naoTenhoCelula') })} options={redes} />}
                               {!watch('naoTenhoCelula') && <Dropdown className='w-full mb-3 rounded-none' placeholder={`Selecione sua Célula ${!watch('naoTenhoCelula') ? '*' : ''}`} value={watch('celula')} {...register('celula', { required: !watch('naoTenhoCelula') })} options={celulas} />}
-                              <div className="field-checkbox flex items-end justify-start gap-2">
+                              <div className="field-checkbox flex items-end justify-start gap-2 mb-3">
                                 <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
                                   <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
                                 <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Não frequento uma Célula</label>
                               </div>
+                              {
+                                watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Outra denominação, se sim qual?" />
+                              }
                               {
                                 /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
                                   ? <input type="submit" name="next" className="next action-button" value="Finalizar e #Partiu!" />
