@@ -18,13 +18,20 @@ const dataColumns = [
   'CPF',
   'Nome',
   'Telefone',
+  'Denominação',
   'Inscrição'
 ];
 
 export default function TableInscritos({ inscritos, loading, actions }) {
   const { redes, celulas } = useRedesService(true);
   const { evento, loading: loadingConfig } = useConfigService()
-  const [visibleColumns, setVisibleColumns] = useState(dataColumns);
+  const [visibleColumns, setVisibleColumns] = useState([
+    'Rede',
+    'Célula',
+    'CPF',
+    'Nome',
+    'Inscrição'
+  ]);
   const [countRealRows, setCountRealRows] = useState(0);
   const [confirmacaoEmAndamento, setConfirmacaoEmAndamento] = useState(false);
   const [filters, setFilters] = useState({
@@ -33,7 +40,8 @@ export default function TableInscritos({ inscritos, loading, actions }) {
     celula: { value: null, matchMode: FilterMatchMode.IN },
     cpf: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
     nome: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    telefone: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] }
+    telefone: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
+    denominacao: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] }
   });
 
   const globalFilterRef = useRef(null);
@@ -160,10 +168,15 @@ export default function TableInscritos({ inscritos, loading, actions }) {
           field="cpf"
           header="CPF" />
         : null}
-      {visibleColumns.includes('Telefone')
+        {visibleColumns.includes('Telefone')
+          ? <Column
+            field="telefone"
+            header="Telefone" />
+          : null}
+      {visibleColumns.includes('Denominação')
         ? <Column
-          field="telefone"
-          header="Telefone" />
+          field="denominacao"
+          header="Denominação" />
         : null}
       {visibleColumns.includes('Inscrição')
         ? <Column
