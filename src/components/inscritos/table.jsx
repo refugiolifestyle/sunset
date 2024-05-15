@@ -167,7 +167,7 @@ export default function TableInscritos({ inscritos, loading, actions }) {
         ? <Column
           field="cpf"
           header="CPF"
-          body={linha => `***.${linha.cpf.substring(4, 7)}-**`} />
+          body={linha => `***.${linha.cpf.substring(4, 11)}-**`} />
         : null}
         {visibleColumns.includes('Telefone')
           ? <Column
