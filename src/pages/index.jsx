@@ -176,10 +176,10 @@ export default function Index() {
                                   <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
                                     <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
                                   )} />
-                                  <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Convidado de outra igreja/Não frequenta uma célula</label>
+                                  <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Convidado/Não frequenta uma célula</label>
                                 </div>
                                 {
-                                  watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado de outra igreja, se sim qual?" />
+                                  watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado? se sim qual denominação?" />
                                 }
                                 {
                                   /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && cpf.isValid(watch('cpf')) && !loading
@@ -196,10 +196,10 @@ export default function Index() {
                                 <Controller name="naoTenhoCelula" control={control} render={({ field, fieldState }) => (
                                   <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
-                                <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Convidado de outra igreja/Não frequenta uma célula</label>
+                                <label htmlFor="naoTenhoCelula" className={classNames({ 'p-error': errors.naoTenhoCelula })}>Convidado/Não frequenta uma célula</label>
                               </div>
                               {
-                                watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado de outra igreja, se sim qual?" />
+                                watch('naoTenhoCelula') && <input {...register(`denominacao`)} placeholder="Convidado? se sim qual denominação?" />
                               }
                               {
                                 /\d{3}.\d{3}.\d{3}-\d{2}/.test(watch('cpf')) && !loading
